@@ -17,13 +17,13 @@
 % Actually, it's up to you to strictly adhere to this author notation.
 \author{
   \alignauthor{
-    \textbf{First Author}\\
+    \textbf{Antoine Loriette}\\
     \affaddr{AuthorCo, Inc.}\\
     \affaddr{123 Author Ave.}\\
     \affaddr{Authortown, PA 54321 USA}\\
-    \email{author1@anotherco.com}
+    \email{antoine.loriette@gmail.com}
   }\alignauthor{
-    \textbf{Fourth Author}\\
+    \textbf{Sebastian Stein}\\
     \affaddr{AuthorCo, Inc.}\\
     \affaddr{123 Author Ave.}\\
     \affaddr{Authortown, PA 54321 USA}\\
@@ -31,13 +31,13 @@
   }
   \vfil
   \alignauthor{
-    \textbf{Second Author}\\
+    \textbf{Roderick Murray-Smith}\\
     \affaddr{AuthorCo, Inc.}\\
     \affaddr{123 Author Ave.}\\
     \affaddr{Authortown, PA 54321 USA}\\
     \email{author2@anotherco.com}
   }\alignauthor{
-    \textbf{Fifth Author}\\
+    \textbf{John H. Williamson}\\
     \affaddr{AuthorCo, Inc.}\\
     \affaddr{123 Author Ave.}\\
     \affaddr{Authortown, PA 54321 USA}\\
@@ -84,36 +84,35 @@
 \maketitle
 
 \begin{abstract}
-Gesture typing performed through tabletop interaction presents potential for severely/physically impaired users. In this work, we use depth camera to create virtual touch surfaces on regular tabletop. We describe our prototype system and report on a supervised learning approach to fingertip touch detection problem. We follow with a user study that compares our indirect interaction technique to control tablet scenario and explore the influence of input size and aspect ratio on the text input performance. We show that novice user performs with same error rate at half the input rate with our system as compared to control, and that an input size between A5 and A4 present the best tradeoff between precision and user preference.
+The association of tabletop interaction with gesture typing presents potential for physically impaired users. In this work, we use depth cameras to create touch surfaces on regular tabletops. We describe our prototype system and report on a supervised learning approach to fingertips touch classification. We follow with a gesture typing study that compares our system with a control tablet scenario and explore the influence of input size and aspect ratio of the virtual surface on the text input performance. We show that novice users perform with the same error rate at half the input rate with our system as compared to the control condition, that an input size between A5 and A4 present the best tradeoff between precision, performance and user preference and that user's indirect tracking ability seems to be the overall performance limiting factor.
+
+\textcolor{red}{potential for more space}
+
 \end{abstract}
 
 \keywords{\plainkeywords}
-\textcolor{red}{Optional section to be included in your final version.}
+% \textcolor{red}{Optional section to be included in your final version.}
 
 \category{H.5.m}{Information interfaces and presentation (e.g., HCI)}{Miscellaneous}.
 %See \cite{ACMCCS}
-See: \url{http://www.acm.org/about/class/1998/}
-for help using the ACM Classification system.
-\textcolor{red}{Optional section to be included in your final version, but strongly encouraged.}
-
-% \begin{figure}
-%     \centering
-%     \includegraphics[width=\linewidth]{figures/banner.pdf}
-%     \caption{Potential interaction setup. A mobile device whose optical sensor creates an on-demand touch surface offers two degrees of freedom in the choice of surface geometry.}~\label{fig:banner}
-% \end{figure}
+% See: \url{http://www.acm.org/about/class/1998/}
+% for help using the ACM Classification system.
+% \textcolor{red}{Optional section to be included in your final version, but strongly encouraged.}
 
 
 % =============================================================================
 \section{Introduction}
 % =============================================================================
+The combination of indirect optically tracked input and potentially projected display (“virtual surfaces”) has several interesting properties. Virtual surfaces, as opposed to touch screens, are well suited to tackle the palm rejection problem and the occlusion problem, offer a choice of size, aspect ratio and texture of the input space and allow interactions with dirty or wet hands.
 
-Interaction on virtual tabletop is a fast-moving field nowadays with many different enabling technology. Depth cameras have been popular~\cite{Harrison2011,Xiao2016}, but other sensors have been used to the same effect (cite Ubitouch and FTIR). Some interaction advantages of all or part of mentioned technologies is economic and flexible designs, ability to tackle the palm rejection problem, support for dirty hand/sterile scenarios, relatively low muscle requirement with arm rest.
+
+Depth cameras~\cite{Harrison2011,Xiao2016} have usually been employed to create such surfaces, even though touch classification remains problematic and few systems are available for all camera types. Other work have tried to combine different sensor sources (cite Ubitouch) or other techniques (FTIR?).
 
 \marginpar{
 \begin{figure}
     \begin{center}
         \includegraphics[width=\marginparwidth]{figures/banner.pdf}
-        \caption{Potential interaction setup. A mobile device whose optical sensor creates an on-demand touch surface offers two degrees of freedom in the choice of surface geometry.}
+        \caption{Potential interaction setup. A mobile device whose optical sensor creates an on-demand touch surface offers width and height as free parameters.}
         \label{fig:banner}
     \end{center}
 \end{figure}
@@ -126,84 +125,57 @@ Interaction on virtual tabletop is a fast-moving field nowadays with many differ
 \end{figure}
 }
 
-Mention that no standard system is available?
+% \textcolor{red}{potential for more space}
 
-More space.
+% \textcolor{red}{potential for more space}
 
-More space.
+In this context, the task of gesture typing~\cite{Kristensson2004} is interesting to research for the following reasons. Text-input remains a major activity~\cite{McGregor2014} on mobile device occupying up to 40\% of the user interaction time, the technique lends itself well to optical systems by limiting the requirement for repetitive target acquisition or touch classification, and little is known about the impact of input size (one of the free parameters of virtual surface) on writing performance.
 
-More space.
-
-More space.
-
-
-Gesture typing~\cite{Kristensson2004} is interesting to research in this context for several reasons. Text-input is still main activity~\cite{McGregor2014} on mobile device, 40\% of the interaction time. The technique itself mitigates the importance of touch classification which has shown to be problematic with optical systems, and as an interaction task little if known about the impact of input size (one of the free parameters of virtual surface) on writing performance.
-
-% The commoditization of depth camera creates opportunity for novel interaction scenarios. From its inception with Omnitouch to more recent work, such as Xiao et al. ~\cite{Xiao2016}, using vision-based system for tabletop interaction affords . Virtual surfaces are indeed parametrisable,
-
-% This can be interesting for patients with severe physical disabilities. The flexibility of such a system allow for rapid deployment but also let the designer finding the best parameters for the interaction in terms of size and touch point. Moreover, tabletop interaction is nice to the body since it allows to the forearm during the interaction.
-
-% Given that text-input remains a very important activity on mobile devices~\cite{McGregor2014}, we set out to explore the feasibility of gesture typing on the prototype as it suits well our interaction paradigm.
-
-This work specifically focus on two goals:
-% aims at making the following two specific contributions. First, show that supervised learning is a good approach to fingertip touch classification problem. Second, analyse the influence of input space on gesture typing performance.
-\begin{itemize}
-\item to investigate supervised learning as an approach to fingertip touch classification problem.
-\item to study the influence of input space (size and aspect ration) on gesture typing performance.
-\end{itemize}
+This work specifically focus on two goals: to report on a supervised learning approach to the fingertip touch classification task and to study the influence of input space (size and aspect ratio) on gesture typing performance.
+% \begin{itemize}
+% \item to report on a supervised learning approach to the fingertip touch classification task.
+% \item to study the influence of input space (size and aspect ratio) on gesture typing performance.
+% \end{itemize}
 
 % =============================================================================
 \section{System overview}
 % =============================================================================
+The envisioned interaction scenario is shown in ~\autoref{fig:banner} with its implementation in \autoref{fig:system_insitu_0}. We use an Intel Realsense SR300 obliquely mounted on a tripod that overlooks the interaction surface. Finger detection and tracking is performed on a desktop computer. The system implements the 3 state button model, with its touch events sent to the Android tablet running a custom application overwriding its input event system. In addition, hover state is displayed as a red marker at the pointer’s position, touching is displayed through the Android debugging facility as a cross spanning the screen and continuous touch is displayed as a trace. An audio feedback is produced on each touch down event.
 
-As shown by~\autoref{fig:banner}, the envisioned interaction scenario. The implementation is picture in \autoref{fig:system_insitu_0}. We implemented a simple finger tracker that will follow the closest point to the camera.
+The pointer tracked by the system is defined as the point cloud closest to the camera in the depth direction ($y$ on ~\autoref{fig:pointcloud}); there is no explicit finger or hand modeling performed. Instead, the assumption is that the interacting finger is the furthest protruding object from the user.
 
-In parallel to implementing a prototype, we gathered some informal feedback from a Wizard of Oz testing where 4 participants with high spinal cord injury performed gesture typing like shapes on a tabletop. We gained the insights that this user group is capable of performing the said trajectories, up to A4/A3 and even though ... (not sure I can write that)
+The touch classification problem is usually solved via flood-filling~\cite{Harrison2011,Xiao2016}. However, it is well suited to a supervised learning approach provided availability of a training dataset. One of the authors video-taped 6 minutes of interactions, half touching and half hovering with some frames out of range while using the index, thumb and pinky at close and long range. From the fingertip pointcloud, we use the histogram of z-values as features (providing some orientation and shape invariance) and a neural network classifier. We tested the generalisation with different cross validation splits and obtained an averaged 0.96 AUC for the ROC, see~\autoref{fig:roc_auc}. The ROC curves led us to choose an operating point of 0.5 for the live system, which we trained on the whole dataset for 75 epochs.
 
-Touch classification is usually solved with flood filling as in. We however would mention that this problem is a classical supervised learning problem if some labeled test data can be recorded. An author of the current work recorded 12 minutes of video and fed that to a MLP after feature extraction. The performance is good with average 96\% AUC. This was as usual also fitted with an asymetric touch level.
 
-More space
-
-More space
-
-More space
-
-More space
-% The field of hand pose estimation is rapidly moving, and at the time of the study we did not find a software package that would fill all the requirements. We chose to perform simple hand tracking with Kalman filtering of the closest point to the camera, and did spend some time on the touch classification - which (is rarely tackled/has proven problematic) in the litterature~\cite{Xiao2016}.
-
-% This problem is usually solved by manually setting threshold from observation from the data. This is however very well suited for a supervised learning scheme. With that in mind, we recorded 12 minutes of film, equally balanced with touching and non-touching frames, as well as different fingers (pinky, middle and index) and different pose angle. We trained a simple MLP classifier.
 
 % \begin{figure}
-%     \centering
-%     \includegraphics[width=\linewidth]{figures/roc_auc.pdf}
-%     \caption{Performance of the fingertip touch classification based on a classic supervised machine learning algorithm.}~\label{fig:banner}
+%   \centering
+%   \includegraphics[width=\linewidth]{./figures/pointcloud.pdf}
+%   \caption{Insert a caption below each figure.}
+%   \label{fig:sample}
 % \end{figure}
-
-From the recording camera, and after processing on a stationnary computer (in soft realtime), the detected touch events as sent to a mobile device which runs a custom application and reacts as if the user was touching the screen. An additional audiovisual feedback is presented to display hover position and touch down events.
-
 
 % =============================================================================
 \section{User study}
 % =============================================================================
-We designed a user study with two goals in mind, evaluating the usiability of the system as compared to an interaction on a mobile device, and finding out the influence of the size and aspect ratio of the input surface onto the text input rate. The design is detailed in table.
+We ran an experiment with two research goals in mind. First we wanted to evaluate the usability of our system, for this purpose we included a condition with an interaction directly on the tablet. Second, given the nature of the task and its inherent difficulty for novice users, we investigated the influence of the physical space on performance (Accot et al.~\cite{Accot2001} showed a U-shaped curve in performance). Our independent variable was thus the control surface dimensions, which is effectively changing the control-display gain defined by: $CD_{gain} = V_{display}/V_{control}$.
 
 \marginpar{
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/pointcloud.pdf}
-    \caption{Real segmented sensor image from our prototype with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}
+    \caption{Segmented sensor image with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}
     \label{fig:pointcloud}
 \end{figure}
 
 \begin{figure}
     \centering
     \includegraphics[width=\linewidth]{figures/roc_auc.pdf}
-    \caption{Performance of the fingertip touch classification based on a classic supervised machine learning algorithm.}~\label{fig:roc_auc}
+    \caption{Performance of the fingertip touch classification.}~\label{fig:roc_auc}
 \end{figure}
 }
 
-We gathered 12 participants, all right handed, only one had previous experience with gesture typing.
-We  balanced the LEVEL condition. The task was to write in succession 20 words taken at random from the most common english words with length between 2 and 5 letters\footnote{Word sample used for the experiment: \{\cdt{asset}, \cdt{badly}, \cdt{chew}, \cdt{deck}, \cdt{dog}, \cdt{end}, \cdt{fix}, \cdt{gate}, \cdt{herb}, \cdt{hide}, \cdt{hot}, \cdt{iron}, \cdt{lab}, \cdt{lay}, \cdt{order}, \cdt{safe}, \cdt{seek}, \cdt{seem}, \cdt{want}, \cdt{wrong}\}}. The design of the task allow the user to familiarise with gesture typing and emulates a proficient bahavior. We also asked the user to fill in a NASA Task Load Index.
+We gathered 12 participants, all right handed, without requirement on gesture typing experience. A repeated measures within-subjects design was used. There were 3 conditions and 5 level combinations were evaluated, see \autoref{tab:cdt} for details. The presentation order of the 5 combinations was randomised and presented a uniform distribution across the participants. The task was to write 20 words per level (words taken at random from the most common english words with length between 2 and 5 letters) with maximum 7 attempt to complete 5 correct input for each word. The design of the task is similar to \cite{Quinn2016} and allows novice users to focus on the physical execution instead of the shape recollection, effectively emulating a proficient bahavior even for novice users. After each level, participants were offered to take a break before moving to the next one. Finally, participants were asked for their feedback using the NASA Task Load Index~\cite{Hart1988} (NASA-TLX) to assess the perceived workload of completed level.
 
 \begin{table}
   \centering
@@ -218,44 +190,23 @@ We  balanced the LEVEL condition. The task was to write in succession 20 words t
     % \midrule
     \hline
     \cdt{tp1} & \cdt{tablet} & 9.4 & 4.7 & 44.2 & 2 & 1 \\
-    % \bottomrule
   \end{tabular}
-  \caption{Dimensions in centimeters, area in squared centimeter, ratio and control/display gain for all 5 combinations used in the experiment.}~\label{tab:cdt}
+  \caption{Design of the experiment. Level name, device type, dimensions (in $cm$), area (in $cm^2$), ratio and control/display gain for all 5 combinations used in the experiment.}~\label{tab:cdt}
 \end{table}
 
-More space
-
-More space
-
-More space
+The experimental design was thus: 12 participants $\times$ 5 \cdt{level} $\times$ 20 \cdt{word} = 1200 trials. For each trial, we had 5 to 7 attemps depending on the error rate, which means a total of 6,000 to 8,400 total samples. After the experiment, we actually recorded 6963 samples.
 
 % =============================================================================
-\section{Preliminary result}
+\section{Result}
 % =============================================================================
-We measure the dependent variable time to completion and ...
-The dependent variables are the success rate, the time taken per trial and the trace data when available. This allowed us to compute the dependent measure error rate defined as the per- centage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in [3], according to the formula: $WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string, s is time in seconds.
+The dependent variables are the success rate, the time taken per trial and the trace data when available. This allowed us to compute the dependent measure error rate defined as the percentage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in [3], according to the formula\footnote{$WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string, s is time in seconds}.
 
-We found that LAY presented some very unusual behavior. Entry rates had an error rate at $89.5\%$ while the WORD mean is $20.1\%$ and no other word had an error rate higher than $30\%$. The reason is that the recogniser promotes words of higher prior probability in the language model, in this case “Larry”, “last” or “Katy” - highlight the limitations of pure gesture typing interaction.
+We found one input word (\cdt{lay}) presented some very unusual behavior. Entry rates had an error rate at $89.5\%$ while the WORD mean is $20.1\%$ and no other word had an error rate higher than $30\%$. The reason is that the recogniser promotes words of higher prior probability in the language model, in this case “Larry”, “last” or “Katy” - highlight the limitations of pure gesture typing interaction.
 
-A statistical analysis showed a significant main effect of DEVICE (F1,11 = 37.77, p < 0.0001) on error rate with mean value for TP1 and OP1 equal to respectively 6.2\% and 26.1\%, see Figure 4.a. A statistical analysis also showed a significant main effect of SIZE (F2,22 = 10.99, p < 0.001) on the error rate. Finally, an ANOVA on TP1, OP2, OP4 and OL2 did not show a significant main effect (p = 0.11) even though OPTICAL is in average higher than TABLET. In other words, among all levels of the experiment, only OP1 shows a significant higher error rate.
+A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 37.77, p < 0.0001$) on error rate with mean value for TP1 and OP1 equal to respectively 6.2\% and 26.1\%, see Figure 4.a. A statistical analysis also showed a significant main effect of SIZE ($F_{2,22} = 10.99, p < 0.001$) on the error rate. Finally, an ANOVA on TP1, OP2, OP4 and OL2 did not show a significant main effect (p = 0.11) even though OPTICAL is in average higher than TABLET. In other words, among all levels of the experiment, only OP1 shows a significant higher error rate.
 
-A statistical analysis showed a significant main effect of DEVICE (F1,11 = 90.15, p < 0.0001) on input rate with mean values for TP1 and OP1 equal to respectively 29.2 WPM and 13.7 WPM. We also looked at pair-wise comparison2 for OP-TICAL and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in TP1 is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in OPTICAL should be compared with other simi- lar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
+A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 90.15, p < 0.0001$) on input rate with mean values for TP1 and OP1 equal to respectively 29.2 WPM and 13.7 WPM. We also looked at pair-wise comparison2 for OP-TICAL and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in TP1 is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in OPTICAL should be compared with other simi- lar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
 
-\marginpar{
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/err_DEVICE_SHAPE.pdf}
-    \caption{Effect of levels on error rate.}
-    \label{fig:err_DEVICE_SHAPE}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/wpm_DEVICE_SHAPE.pdf}
-    \caption{Effect of levels on input rate.}
-    \label{fig:wpm_DEVICE_SHAPE}
-\end{figure}
-}
 
 The participants were capable of moving their hand with great variability when it comes to speed.
 
@@ -272,13 +223,27 @@ The Nasa TLX reported high stress on big surfaces, and high stress on the very s
 \section{Conclusion and Future work}
 % =============================================================================
 
+\marginpar{
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/err_DEVICE_SHAPE.pdf}
+    \caption{Effect of levels on error rate.}
+    \label{fig:err_DEVICE_SHAPE}
+\end{figure}
 
-The user study showed that the users hit the accuracy ceiling when using a small surface. It also showed that the task behave according to Fitts law.
+\begin{figure}
+    \centering
+    \includegraphics[width=\linewidth]{figures/wpm_DEVICE_SHAPE.pdf}
+    \caption{Effect of levels on input rate.}
+    \label{fig:wpm_DEVICE_SHAPE}
+\end{figure}
+}
+The user study showed that the users hit the accuracy ceiling when using a small surface. It also showed that the task behave according to Fitts law. The users seem to be limited by their ability to drive an indirect pointer rather than performing the difficulty of the task itself.
 
-The user study These encouraging results open the way to testing the system with patients with spinal cord injury. More so, due to recent advance in hand pose recognition, the reality of interacting via touch through vision based system should be investigated further.
+These encouraging results open the way to testing the system with patients with spinal cord injury. More so, due to recent advance in hand pose recognition, the reality of interacting via touch through vision based system should be investigated further.
 
-\section{Acknowledgements}
-We would like to thank the EU Moregrasp project for funding the research, as well as the patients in the spinal unit in Heidelberg for providing early feedback about the interaction technique.
+% \section{Acknowledgements}
+% We would like to thank the EU Moregrasp project for funding the research, as well as the patients in the spinal unit in Heidelberg for providing early feedback about the interaction technique.
 
 
 \newpage
