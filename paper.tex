@@ -103,9 +103,9 @@ The association of tabletop interaction with gesture typing presents interaction
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-The combination of indirect optically tracked input and potentially projected display (“virtual surfaces”) has several interesting properties. Virtual surfaces, as opposed to touch screens, are well suited to tackle the palm rejection problem and the occlusion problem, offer a choice of size, aspect ratio and texture of the input space and allow interactions with dirty or wet hands.
+The combination of indirect optically tracked input and potentially projected display (“virtual surfaces”) has several interesting properties. Virtual surfaces, as opposed to touch screens, are well suited to tackle the palm rejection problem and the occlusion problem, offer a choice of size, aspect ratio and texture of the input space, and allow interactions with dirty or wet hands.
 
-Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employed to create such surfaces, while other work have tried to combine different sensor sources~\cite{Wen2016}. However, the touch classification, critical to the quality of the interaction remains challenging~\cite{Xiao2016} and is traditionally addressed by hand-tuning parameters and thresholding.
+Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employed to create such surfaces, while other work have combined different sensor sources~\cite{Wen2016}. However, the touch classification, critical to the quality of the interaction remains challenging~\cite{Xiao2016} and is traditionally addressed by hand-tuning parameters and thresholding.
 
 \marginpar{
 \begin{figure}
@@ -124,20 +124,20 @@ Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employe
 \end{figure}
 }
 
-In this context, the task of gesture typing~\cite{Kristensson2004} is interesting to research for the following reasons. Text-input is a major activity~\cite{McGregor2014} on mobile device taking up to 40\% of the user interaction time, the technique lends itself well to optical systems by limiting the requirement for repetitive target acquisition or touch classification, and little is known about the impact of input size (one of the free parameters of virtual surfaces) on writing performance as other works are focused on pointing~\cite{Casiez2008,Gilliot2014} or bimanual task\cite{Schmidt2009}.
+In this context, the task of gesture typing~\cite{Kristensson2004} is an interesting research focus. Text-input is a major activity~\cite{McGregor2014} on mobile device taking up to 40\% of the user interaction time. The technique lends itself well to optical systems by limiting the requirement for repetitive target acquisition or touch classification. Yet, little is known about the impact of input size (one of the free parameters of virtual surfaces) on writing performance as other works focused on pointing~\cite{Casiez2008,Gilliot2014} or bimanual task\cite{Schmidt2009}.
 
-This work specifically focus on two goals: to report on a supervised learning approach to the fingertip touch classification task and to study the influence of input space (size and aspect ratio) on gesture typing performance.
+This work specifically focuses on two goals: to report on a supervised learning approach to the fingertip touch classification task and to study the influence of input space (size and aspect ratio) on gesture typing performance using virtual tabletops.
 % \begin{itemize}
 % \item to report on a supervised learning approach to the fingertip touch classification task.
 % \item to study the influence of input space (size and aspect ratio) on gesture typing performance.
 % \end{itemize}
 
 % =============================================================================
-\section{System overview}
+\section{System Overview}
 % =============================================================================
 The envisioned interaction scenario is shown in ~\autoref{fig:banner}. A camera overlooks the interaction surface and performs the hand and finger tracking, as well as the touch detection. The system mapped in an indirect manner the user's pointer from the virtual surface onto the tablet screen. A 3-state button model is used with visual feedback indicating hover positions and continuous touches. An audio cue indicates whenever a new touch down event is detected.
 
-\section{Touch classification}
+\section{Touch Classification}
 
  % with its implementation in \autoref{fig:system_insitu_0}. We use an Intel Realsense SR300 obliquely mounted on a tripod that overlooks the interaction surface. Finger detection and tracking is performed on a desktop computer. The system implements the 3 state button model, with its touch events sent to the Android tablet running a custom application overwriding its input event system. In addition, the tablet displays hover state as a red marker at the pointer’s position, touching is displayed through the Android debugging facility as a cross spanning the screen and continuous touch is displayed as a segment line. An audio feedback is produced on each touch down event.
 
@@ -153,11 +153,11 @@ This is fed to a binary neural network classifier: 20 inputs dimensions, 2 layer
 % \end{figure}
 
 % =============================================================================
-\section{User study}
+\section{User Study}
 % =============================================================================
-We ran an experiment with two research goals in mind. First we wanted to evaluate the usability of our system, for this purpose we included a condition with an interaction directly on the tablet. Second, given the nature of the task and its inherent difficulty for novice users, we investigated the influence of the physical space on performance (Accot et al.~\cite{Accot2001} demonstrated a U-shaped curve in performance against input scale). Our independent variable was thus the control surface dimensions, which is effectively changing the control-display gain ($CD_{gain}$) defined as in \cite{Casiez2008} by the the ratio of the pointer velocity to device velocity.
+We ran an experiment with two research goals in mind. First we wanted to evaluate the usability of our system, for this purpose we included a condition with an interaction directly on the tablet. Second, given the nature of the task and its inherent difficulty for novice users, we investigated the influence of the physical space on performance. Accot et al.~\cite{Accot2001} demonstrated a U-shaped curve in performance against input scale. Our independent variable were thus the control surface dimensions, which effectively change the control-display gain ($CD_{gain}$) defined as in \cite{Casiez2008} by the the ratio of the pointer velocity to device velocity.
 
-We gathered 12 participants, all right handed, without requirement on gesture typing experience.
+We recruited 12 participants, all right handed, without requirement on gesture typing experience.
 A repeated measures within-subjects design was used. There were 3 conditions (\cdt{device}, \cdt{size} and \cdt{orientation}) and 5 level combinations were evaluated. We adopted a 3-symbols naming convention: the first letter represents the DEVICE, the second marks the ORIENTATION and the number represents the scaling factor as SIZE. 5 level combinations were evaluated, see \autoref{tab:cdt} below for details.
 
 % A repeated measures within-subjects design was used. There were 3 conditions and 5 level combinations were evaluated, see \autoref{tab:cdt} below for details. The presentation order of the 5 combinations was randomised and presented a uniform distribution across the participants.
@@ -201,14 +201,14 @@ The experimental design was thus: 12 participants $\times$ 5 \cdt{level} $\times
 \end{table}
 
 % =============================================================================
-\section{Result}
+\section{Results}
 % =============================================================================
-The dependent variables are the success rate, the time taken per trial and the trace data when available. This allowed us to compute the dependent measure error rate defined as the percentage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in~\cite{Markussen2014}, according to the following formula\footnote{$WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string, s is time in seconds}.
+The dependent variables we analyse are the success rate, the time taken per trial and the trace data when available. From these, we computed the dependent measure error rate defined as the percentage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in~\cite{Markussen2014}, according to the following formula\footnote{$WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string, s is time in seconds}.
 
-We found one input word (\cdt{lay}) presented some very unusual behavior. Its error rate was at $89.5\%$ while the \cdt{WORD} mean is $20.1\%$ and no other word had an error rate higher than $30\%$. The reason is that the recogniser promotes words of higher prior probability in the language model, \textit{``Larry''}, \textit{``last''} or \textit{``Katy''}. For the all subsequent analysis of error rate, \cdt{lay} is removed from the dataset.
+We found one input word (\cdt{lay}) presented some very unusual behavior. Its error rate was at $89.5\%$ while the \cdt{WORD} mean was $20.1\%$ and no other word had an error rate higher than $30\%$. The reason was that the recogniser promoted words of higher prior probability in the language model, \textit{``Larry''}, \textit{``last''} or \textit{``Katy''}. For the all subsequent analysis of error rate, \cdt{lay} was removed from the dataset.
 
 \subsection{Effect on error rate}
-A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 37.77, p < 0.0001$) on error rate with mean value for \cdt{TP1} and \cdt{OP1} equal to respectively 6.2\% and 26.1\%, see \autoref{fig:err_DEVICE_SHAPE}. A statistical analysis also showed a significant main effect of \cdt{SIZE} ($F_{2,22} = 10.99, p < 0.001$) on the error rate. Finally, an ANOVA on \cdt{TP1}, \cdt{OP2}, \cdt{OP4} and \cdt{OL2} did not show a significant main effect ($p = 0.11$) even though \cdt{OPTICAL} is on average higher than \cdt{TABLET}. In other words, among all levels of the experiment, only \cdt{OP1} shows a significant higher error rate.
+A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 37.77, p < 0.0001$) on error rate with mean value for \cdt{TP1} and \cdt{OP1} equal to 6.2\% and 26.1\%, respectively, see \autoref{fig:err_DEVICE_SHAPE}. A statistical analysis also showed a significant main effect of \cdt{SIZE} ($F_{2,22} = 10.99, p < 0.001$) on the error rate. Finally, an ANOVA on \cdt{TP1}, \cdt{OP2}, \cdt{OP4} and \cdt{OL2} did not show a significant main effect ($p = 0.11$) even though \cdt{OPTICAL} is on average higher than \cdt{TABLET}. In other words, among all levels of the experiment, only \cdt{OP1} shows a significant higher error rate.
 
 \marginpar{
 \begin{figure}
@@ -227,13 +227,13 @@ A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 3
 }
 
 \subsection{Effect on input rate}
-A statistical analysis showed a significant main effect of \cdt{DEVICE} ($F_{1,11} = 90.15, p < 0.0001$) on input rate, see \autoref{fig:wpm_DEVICE_SHAPE}, with mean values for \cdt{TP1} and \cdt{OP1} equal to respectively $29.2 WPM$ and $13.7 WPM$. We also looked at pairwise comparison\footnote{Post-hoc analysis were adjusted using Bonferroni correction.} for \cdt{OPTICAL} and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in \cdt{TP1} is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in \cdt{OPTICAL} should be compared with other similar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
+A statistical analysis showed a significant main effect of \cdt{DEVICE} ($F_{1,11} = 90.15, p < 0.0001$) on input rate, see \autoref{fig:wpm_DEVICE_SHAPE}, with mean values for \cdt{TP1} and \cdt{OP1} equal to $29.2 WPM$ and $13.7 WPM$, respectively. We also looked at pairwise comparison\footnote{Post-hoc analysis were adjusted using Bonferroni correction.} for \cdt{OPTICAL} and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in \cdt{TP1} is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in \cdt{OPTICAL} should be compared with other similar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
 
 \subsection{Effect of orientation}
-The design of the experiment also includes \cdt{ORIENTATION}. This condition has so far been excluded from the SIZE analysis and can be difficult to apprehend since not only the \cdt{ORIENTATION} of the visual feedback is different but its size also. The main result is the average pointer speed in display space at $303.75 pixel/s$, higher than the PORTRAIT orientation at an average $228 pixel/s$. It is important to keep in mind that the keyboard area in LANDSCAPE is $61cm^2$, bigger than PORTRAIT at $44cm^2$, which can explain the faster pointer speed but is not responsible for a higher input rate.
+The design of the experiment also includes \cdt{ORIENTATION}. This condition has so far been excluded from the SIZE analysis and can be difficult to apprehend since not only the \cdt{ORIENTATION} of the visual feedback changes, but its size also. The main result is the average pointer speed in display space at $303.75 pixel/s$, higher than the PORTRAIT orientation at an average $228 pixel/s$. It is important to keep in mind that the keyboard area in LANDSCAPE ($61cm^2$), bigger than PORTRAIT ($44cm^2$), which can explain the faster pointer speed but is not responsible for a higher input rate.
 
 \subsection{Qualitative data}
-At the end of the experiment, participants were invited to provide some informal feedback, rank the different level in order of preference and fill in the NASA-TLX form, the tablet interaction was ranked best by all the participants except one. \cdt{OP4} was consistently ranked last, while \cdt{OP2} and \cdt{OL2} had equal ranking in second position. The NASA-TLX data shows that participants describe \cdt{OP4} as the most physically demanding interaction. Participants graded \cdt{OP1} and \cdt{OP4} 20\% higher than \cdt{OP2} and \cdt{OL2} on the scale of effort and frustration. Finally, \cdt{OP1} was graded as having lowest level of performance and highest mental and temporal demand.
+At the end of the experiment, participants were invited to provide some informal feedback, rank the different level in order of preference and fill in the NASA-TLX form, the tablet interaction was ranked best by all participants except one. \cdt{OP4} was consistently ranked last, while \cdt{OP2} and \cdt{OL2} had equal ranking in second position. The NASA-TLX data shows that participants describe \cdt{OP4} as the most physically demanding interaction. Participants graded \cdt{OP1} and \cdt{OP4} 20\% higher than \cdt{OP2} and \cdt{OL2} on the scale of effort and frustration. Finally, \cdt{OP1} was graded as having lowest level of performance and highest mental and temporal demand.
 
 \section{Discussion}
 
@@ -243,12 +243,12 @@ We conducted a user study investigating the usability of the system and showed t
 
 The constant input rate however shows that participants are capable of adapting their motor speed across all investigated scales. Participants also varied the display pointer speed, especially in \cdt{OL2} when presented with a bigger display surface. Because participants are capable of adapting their motor behavior and their control bahavior, another explanation for the upper bound in text input is that the indirect nature of the interaction is the limiting factor. (more research in that direction?)
 
-From the participants feedback, it shows that \cdt{OP1} was a demanding interaction. It also showed that increasing the surface size to the extent of \cdt{OP4} is physically demanding. Recommended sizes for interaction will thus be \cdt{OP2} or \cdt{OL2} (note that the performance is also dependent on the $CD_{gain}$). Moreover, some participants reported the texture having an impact of the interaction. Levesque et al.~\cite{Levesque2011} have used friction in a dynamic manner to improve target acquisition. Given the relatively low performance of the participants, it could be interesting to explore if tactile feedback could help controlling an indirect pointer.
+Participants feedback, it shows that \cdt{OP1} was a demanding interaction, and that increasing the surface size to the extent of \cdt{OP4} is physically demanding. We would therefore recommend sizes \cdt{OP2} or \cdt{OL2} for interaction, noting that the performance is also dependent on the $CD_{gain}$). Some participants reported the texture having an impact of the interaction. Levesque et al.~\cite{Levesque2011} have used friction in a dynamic manner to improve target acquisition. Given the relatively low performance of the participants, it could be interesting to explore if tactile feedback could help controlling an indirect pointer.
 
 % =============================================================================
 \section{Conclusion}
 % =============================================================================
-We developed a system that affords gesture typing on arbitrary flat surfaces using depth camera tracking, and demonstrated a machine learning approach to the issue of detecting touch for fingertips which is effective for this mode of control. We designed an experiment with two research goals in mind. First, we compared the typing performance of our system against a control condition which was a direct interaction on a tablet. Second, we studied the influence of size and aspect ratio of the input surface on gesture typing performance. We showed that the participants could enter text at half the input rate and the same error rate on surface at least twice the size of the current visual feedback. We also showed that the input rate is largely independent of the surface size across the range of sizes we were able to examine. Gesture typing has promise for interaction outside of mobile devices (e.g. for motor impaired users who struggle with capacitive touch technologies). This paper indicates that while camera-tracked gesture typing performance is usable, input rates are lower than touchscreen performance, and this is not influenced by scaling of the input.
+We developed a system that affords gesture typing on arbitrary flat surfaces using depth camera tracking, and demonstrated a machine learning approach to the issue of detecting touch for fingertips which is effective for this mode of control. We designed an experiment with two research goals in mind. First, we compared the typing performance of our optical indirect system against a control condition which was a direct interaction on a tablet. Second, we studied the influence of size and aspect ratio of the input surface on gesture typing performance. We showed that the participants could enter text at half the input rate and the same error rate on surface at least twice the size of the visual feedback. We also showed that the input rate is largely independent of surface size across the range of sizes we were able to examine. Gesture typing has promise for interaction outside of mobile devices, e.g. for motor impaired users who struggle with capacitive touch technologies. This paper indicates that while camera-tracked gesture typing performance is usable, input rates are lower than touchscreen performance, and this is not influenced by scaling of the input.
 
 % \section{Acknowledgements}
 % We would like to thank the EU Moregrasp project for funding the research, as well as the patients in the spinal unit in Heidelberg for providing early feedback about the interaction technique.
