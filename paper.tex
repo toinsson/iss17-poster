@@ -3,11 +3,18 @@
 % See http://personales.upv.es/luileito/chiext/
 
 %% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
-% \copyrightinfo{Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
-% {\emph{CHI'14}}, April 26--May 1, 2014, Toronto, Canada. \\
-% Copyright \copyright~2014 ACM ISBN/14/04...\$15.00. \\
-% DOI string from ACM form confirmation}
+\copyrightinfo{Permission to make digital or hard copies of all or part of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for components of this work owned by others than ACM must be honored. Abstracting with credit is permitted. To copy otherwise, or republish, to post on servers or to redistribute to lists, requires prior specific permission and/or a fee. Request permissions from permissions@acm.org. \\
+{\emph{ISS '17}}, October 17--20, 2017, Brighton, United Kingdom. \\
+Copyright \copyright~2017 ACM ISBN 978-1-4503-4691-7/17/10. \\
+10.1145/3132272.3135074}
 %% EXAMPLE END -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
+
+% \CopyrightYear{2017}
+% \setcopyright{rightsretained}
+% \conferenceinfo{ISS '17}{October 17--20, 2017, Brighton, United Kingdom}\isbn{978-1-4503-4691-7/17/10}
+% \doi{https://doi.org/10.1145/3132272.3135074}
+
+
 
 \title{Gesture Typing on Virtual Tabletop: Effect of Input Dimensions on Performance}
 
@@ -124,10 +131,6 @@ Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employe
 In this context, the task of gesture typing~\cite{Kristensson2004} is an interesting research focus. Text-input is a major activity~\cite{McGregor2014} on mobile device taking up to 40\% of the user interaction time. The technique lends itself well to optical systems by limiting the requirement for repetitive target acquisition or touch classification. Yet, little is known about the impact of input size (one of the free parameters of virtual surfaces) on writing performance as other works focused on pointing~\cite{Casiez2008,Gilliot2014} or bimanual task~\cite{Schmidt2009}.
 
 This work specifically focuses on two goals: to report on a supervised learning approach to the fingertip touch classification task and to study the influence of input space (size and aspect ratio) on gesture typing performance using virtual tabletops.
-% \begin{itemize}
-% \item to report on a supervised learning approach to the fingertip touch classification task.
-% \item to study the influence of input space (size and aspect ratio) on gesture typing performance.
-% \end{itemize}
 
 % =============================================================================
 \section{System Overview}
@@ -135,22 +138,9 @@ This work specifically focuses on two goals: to report on a supervised learning 
 The envisioned interaction scenario is shown in ~\autoref{fig:banner}. A camera overlooks the interaction surface and a computing device performs the hand and fingers tracking as well as the touch detection. The system map in an indirect manner the user's pointer from the virtual surface onto the device's screen. A 3-state button model is used with visual feedback indicating hover positions and continuous touches. Audio cues indicate whenever a new touch down event is detected.
 
 \section{Touch Classification}
-This task is well suited to a supervised learning approach provided a training dataset is available. One of the authors video-taped 6 minutes of interactions creating 3 distincts datasets for 3 different fingers (index, thumb and pinky) totalling 10800 frames. The datasets are balanced with regards to touching frames and hovering frames, a few out-of-range frames are also included. The classification features are 20-bins histograms of z-values of the detected fingertip pointcloud, in red on~\autoref{fig:pointcloud}, which provides some orientation and shape invariance.
+This task is well suited to a supervised learning approach provided a training dataset is available. One of the authors video-taped 6 minutes of interactions creating 3 distincts datasets for 3 different fingers (index, thumb and pinky) totalling 10800 frames. The datasets are balanced with regards to touching frames and hovering frames and include a minor portion of out-of-range frames. The classification features are chosen as 20-bins histograms of z-values of the detected fingertip pointcloud, in red on~\autoref{fig:pointcloud}, which provides some orientation and shape invariance.
 
-This is fed to a binary neural network classifier: 20 inputs dimensions, 2 layers of 64 units with Relu activation and $0.5$ dropout, and a fully connected layer with sigmoid activation. The loss is set to binary cross-entropy and the optimiser to rmsprop. We train the model over 50 epochs and cross-validate with 3 folds (different fingers are validated against each others). The generalisation over different fingers is satisfying as shown by the average performance of 0.96 AUC for the ROC,
-see~\autoref{fig:roc_auc}. The model used for the user study was trained over the full dataset over 75 epochs. As an improvment, it is worth noting the possibility to delegate the feature extraction step to a model capable of inferring features directly, such as a convolutional neural network.
-
-
-% The task is well suited to a supervised learning approach provided availability of a training dataset. One of the authors video-taped 6 minutes of interactions creating 3 distincts datasets for 3 different fingers (index, thumb and pinky) totalling 10800 frames. The datasets are balanced, including half touching frames and half hovering frames with some frames out of range and 2 camera angles. The features are 20 bins histogram of z-values of the detected fingertip pointcloud, in red on \autoref{fig:pointcloud}, which provides some orientation and shape invariance.
-
-% This is fed to a binary neural network classifier: 20 inputs dimensions, 2 layers of 64 units with Relu activation and $0.5$ dropout, and a fully connected layer with sigmoid activation. The loss is set to binary cross-entropy and rmsprop reguliser. We train this model over 50 epochs and cross validated with 3 fold validation (different fingers are validated against each others). The generalisation over different fingers is satisfying, as well as the performance averaging 0.96 AUC for the ROC, see~\autoref{fig:roc_auc}. The model used for the user study was trained over the full dataset over 75 epochs. As an improvment, it is worth noting the possibility to delegate the feature extraction step to a model capable of inferring features directly, such as a convolutional neural network.
-
-% \begin{figure}
-%   \centering
-%   \includegraphics[width=\linewidth]{./figures/pointcloud.pdf}
-%   \caption{Insert a caption below each figure.}
-%   \label{fig:sample}
-% \end{figure}
+This is fed to a binary neural network classifier: 20 inputs dimensions, 2 layers of 64 units with Relu activation and $0.5$ dropout, and a fully connected layer with sigmoid activation. We use the binary cross-entropy as loss function and rmsprop for the optimiser. We train the model over 50 epochs and cross-validate with 3 folds (different fingers are thus validated against each others). The generalisation over different fingers is satisfying as shown by the average performance of 0.96 AUC for the ROC, see~\autoref{fig:roc_auc}. The model used for the user study was trained over the full dataset over 75 epochs. As an improvment, it is worth noting the possibility to delegate the feature extraction step to a model capable of inferring features directly, such as a convolutional neural network.
 
 % =============================================================================
 \section{User Study}
@@ -248,11 +238,8 @@ Participants feedback showed that \cdt{OP1} was a demanding interaction, and tha
 % =============================================================================
 We developed a system that affords gesture typing on arbitrary flat surfaces using depth camera tracking, and demonstrated a machine learning approach to the issue of detecting touch for fingertips which is effective for this mode of control. We designed an experiment with two research goals in mind. First, we compared the typing performance of our optical indirect system against a control condition which was a direct interaction on a tablet. Second, we studied the influence of size and aspect ratio of the input surface on gesture typing performance. We showed that the participants could enter text at half the input rate and the same error rate on surface at least twice the size of the visual feedback. We also showed that the input rate is largely independent of surface size across the range of sizes we were able to examine. Gesture typing has promise for interaction outside of mobile devices, e.g. for motor impaired users who struggle with capacitive touch technologies. This paper indicates that while camera-tracked gesture typing performance is usable, input rates are lower than touchscreen performance, and this is not influenced by scaling of the input.
 
-% \section{Acknowledgements}
-% We would like to thank the EU Moregrasp project for funding the research, as well as the patients in the spinal unit in Heidelberg for providing early feedback about the interaction technique.
-
-
-% \newpage
+\section{Acknowledgements}
+We thank the European Commission and Horizon 2020 for funding this research (award number 643955).
 
 \balance
 \bibliographystyle{acm-sigchi}
