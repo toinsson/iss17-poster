@@ -77,7 +77,10 @@ https://doi.org/10.1145/3132272.3135074}
 \newcommand{\reftable}[1]{Table~\ref{#1}}
 \newcommand{\smit}[1]{{\small\textit{{#1}}}}
 \newcommand{\cdt}[1]{{\small\uppercase{{#1}}}}
-\newcommand{\wpm}{\cdt{wpm} }
+% \newcommand{\smit}[1]{{\textit{{#1}}}}
+% \newcommand{\cdt}[1]{{\uppercase{{#1}}}}
+
+\newcommand{\wpm}{\cdt{wpm}}
 
 
 \begin{document}
@@ -101,7 +104,7 @@ The association of tabletop interaction with gesture typing presents interaction
 % =============================================================================
 \section{Introduction}
 % =============================================================================
-The combination of indirect optically tracked input and potentially projected display (“virtual surfaces”) has several interesting properties. Virtual surfaces, as opposed to touch screens, are well suited to tackle the palm rejection problem and the occlusion problem, offer a choice of size, aspect ratio and texture of the input space, and allow interactions with dirty or wet hands.
+The combination of indirect optically tracked input and potentially projected display (``virtual surfaces'') has several interesting properties. Virtual surfaces, as opposed to touch screens, are well suited to tackle the palm rejection problem and the occlusion problem, offer a choice of size, aspect ratio and texture of the input space, and allow interactions with dirty or wet hands.
 
 Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employed to create such surfaces, while other work have combined different sensor sources~\cite{Wen2016}. However, the touch classification, critical to the quality of the interaction remains challenging~\cite{Xiao2016} and is traditionally addressed by hand-tuning parameters and thresholding.
 
@@ -113,12 +116,11 @@ Depth cameras~\cite{Harrison2011,Sridhar2017,Xiao2016} have usually been employe
         \label{fig:banner}
     \end{center}
 \end{figure}
+
 \begin{figure}
-    \begin{center}
-        \includegraphics[width=\marginparwidth]{figures/system_insitu_0.jpg}
-        \caption{Picture of the user study setup. A tablet device provides the audiovisual feedback while a depth camera mounted on a tripod creates a virtual touch input surface.}
-        \label{fig:system_insitu_0}
-    \end{center}
+    \centering
+    \includegraphics[width=\linewidth]{figures/pointcloud.pdf}
+    \caption{Segmented sensor image with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}~\label{fig:pointcloud}
 \end{figure}
 }
 
@@ -129,43 +131,54 @@ This work specifically focuses on two goals: to report on a supervised learning 
 % =============================================================================
 \section{System Overview}
 % =============================================================================
-The envisioned interaction scenario is shown in ~\autoref{fig:banner}. A camera overlooks the interaction surface and a computing device performs the hand and fingers tracking as well as the touch detection. The system map in an indirect manner the user's pointer from the virtual surface onto the device's screen. A 3-state button model is used with visual feedback indicating hover positions and continuous touches. Audio cues indicate whenever a new touch down event is detected.
+The envisioned interaction scenario is shown in~\autoref{fig:banner}. A camera overlooks the interaction surface and a computing device performs the hand and fingers tracking as well as the touch detection. The system map in an indirect manner the user's pointer from the virtual surface onto the device's screen. A 3-state button model is used with visual feedback indicating hover positions and continuous touches. Audio cues indicate whenever a new touch down event is detected.
+
 
 \section{Touch Classification}
 This task is well suited to a supervised learning approach provided a training dataset is available. One of the authors video-taped 6 minutes of interactions creating 3 distincts datasets for 3 different fingers (index, thumb and pinky) totalling 10800 frames. The datasets are balanced with regards to touching frames and hovering frames and include a minor fraction of out-of-range frames.
+
+\begin{figure}
+  \centering
+  \includegraphics[width=\linewidth]{figures/roc_auc.pdf}
+    \caption{Performance of the fingertip touch classification with 3-fold cross validation. Each split trains on two finger types (among three) and validates against the remaining one.}~\label{fig:roc_auc}
+\end{figure}
 
 The classification features are chosen as 20-bins histograms of z-values of the detected fingertip pointcloud, in red on~\autoref{fig:pointcloud}, which provides some orientation and shape invariance. This is fed to a binary neural network classifier: 20 inputs dimensions, 2 layers of 64 hidden units with rectified linear (ReLU) activation and 50\% dropout, and a fully connected output layer with sigmoid activation. We use the binary cross-entropy as loss function and rmsprop for the optimiser. Finally, we train the model over 50 epochs and perform a 3 folds cross-validation across the 3 datasets, different fingers are thus validated against each others. This provides an estimate for the generalisation power of the model when classifying unseen users as shown by the averaged 0.96 AUC for the ROC, see~\autoref{fig:roc_auc}.
 
 The model used for the user study was trained over the full dataset over 75 epochs. As an improvment, it is worth noting the possibility to delegate the feature extraction step to a model capable of inferring features directly, such as a convolutional neural network.
 
+\marginpar{
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\linewidth]{figures/pointcloud.pdf}
+%     \caption{Segmented sensor image with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}
+%     \label{fig:pointcloud}
+% \end{figure}
+\begin{figure}
+    \centering
+    % \begin{center}
+    \includegraphics[width=\marginparwidth]{figures/system_insitu_0.jpg}
+    \caption{Picture of the user study setup. A tablet device provides the audiovisual feedback while a depth camera mounted on a tripod creates a virtual touch input surface.}
+    \label{fig:system_insitu_0}
+    % \end{center}
+\end{figure}
+
+
+% \begin{figure}
+%     \centering
+%     \includegraphics[width=\linewidth]{figures/pointcloud.pdf}
+%     \caption{Segmented sensor image with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}~\label{fig:pointcloud}
+% \end{figure}
+}
+
+
 % =============================================================================
 \section{User Study}
 % =============================================================================
-We ran an experiment with two research goals in mind. First we wanted to evaluate the usability of our system, for this purpose we included a condition with an interaction directly on the tablet. Second, given the nature of the task and its inherent difficulty for novice users, we investigated the influence of the physical space on performance. Accot et al.~\cite{Accot2001} demonstrated a U-shaped curve in performance against input scale. Our independent variable were thus the control surface dimensions, which effectively change the control-display gain ($CD_{gain}$) defined as in \cite{Casiez2008} by the the ratio of the pointer velocity to device velocity.
-
-\marginpar{
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/pointcloud.pdf}
-    \caption{Segmented sensor image with points within the interactive surface (blue), the ROI plane (cyan), the detected fingers (yellow) and the user pointer (red).}
-    \label{fig:pointcloud}
-\end{figure}
-
-\begin{figure}
-    \centering
-    \includegraphics[width=\linewidth]{figures/roc_auc.pdf}
-    \caption{Performance of the fingertip touch classification with 3-fold cross validation. Each split trains on two finger types (among three) and validates against the remaining one.}~\label{fig:roc_auc}
-\end{figure}
-}
+We ran an experiment with two research goals in mind. First we wanted to evaluate the usability of our system, for this purpose we included a condition with an interaction directly on the tablet. Second, given the nature of the task and its inherent difficulty for novice users, we investigated the influence of the physical space on performance. Accot et al.~\cite{Accot2001} demonstrated a U-shaped curve in performance against input scale. Our independent variable were thus the control surface dimensions, which effectively change the control-display gain ($CD_{gain}$) defined as in~\cite{Casiez2008} by the the ratio of the pointer velocity to device velocity.
 
 We recruited 12 participants, all right handed, without requirement on gesture typing experience.
-A repeated measures within-subjects design was used. There were 3 conditions (\cdt{device}, \cdt{size} and \cdt{orientation}) and 5 level combinations were evaluated, see \autoref{tab:cdt} below for details. We adopted a 3-symbols naming convention: the first letter represents the DEVICE, the second marks the ORIENTATION and the number represents the scaling factor as SIZE.
-
-The apparatus, see \autoref{fig:system_insitu_0}, implements the system description above. An Intel Realsense camera is used, and the processing is performed on a desktop computer. An Android tablet running custom software produces the audiovisual feedback. The pointer tracked by the system is defined as the point cloud closest to the camera in the depth direction ($y$ on ~\autoref{fig:pointcloud}); there is no explicit finger or hand modeling performed. Instead, the assumption is that the interacting finger is the furthest protruding object from the user.
-
-The task was to write 20 words per level (words taken at random from the most common english words with length between 2 and 5 letters) with maximum 7 attempt to complete 5 correct input for each word. The design of the task is similar to \cite{Quinn2016} and allows novice users to focus on the physical execution instead of the shape recollection, effectively emulating a proficient bahavior even for novice users. After each level, participants were offered to take a break before moving to the next one. Finally, participants were asked for their feedback using the NASA Task Load Index~\cite{Hart1988} (NASA-TLX) to assess the perceived workload of completed level.
-
-The experimental design was thus: 12 participants $\times$ 5 \cdt{level} $\times$ 20 \cdt{word} = 1200 trials. For each trial, we had 5 to 7 attemps depending on the error rate, which means a total of 6,000 to 8,400 total samples. After the experiment, we actually recorded 6963 samples.
+A repeated measures within-subjects design was used. There were 3 conditions (\cdt{device}, \cdt{size} and \cdt{orientation}) and 5 level combinations were evaluated, see~\autoref{tab:cdt} below for details. We adopted a 3-symbols naming convention: the first letter represents the DEVICE, the second marks the ORIENTATION and the number represents the scaling factor as SIZE.
 
 \begin{table}
   \centering
@@ -184,16 +197,15 @@ The experimental design was thus: 12 participants $\times$ 5 \cdt{level} $\times
   \caption{Design of the experiment. Level name, device type, dimensions (in $cm$), area (in $cm^2$), ratio and control/display gain for all 5 combinations used in the experiment.}~\label{tab:cdt}
 \end{table}
 
+The apparatus, see~\autoref{fig:system_insitu_0}, implements the system description above. An Intel Realsense camera is used, and the processing is performed on a desktop computer. An Android tablet running custom software produces the audiovisual feedback. The pointer tracked by the system is defined as the point cloud closest to the camera in the depth direction ($y$ on~\autoref{fig:pointcloud}); there is no explicit finger or hand modeling performed. Instead, the assumption is that the interacting finger is the furthest protruding object from the user.
+
+The task was to write 20 words per level (words taken at random from the most common english words with length between 2 and 5 letters) with maximum 7 attempt to complete 5 correct input for each word. The design of the task is similar to \cite{Quinn2016} and allows novice users to focus on the physical execution instead of the shape recollection, effectively emulating a proficient bahavior even for novice users. After each level, participants were offered to take a break before moving to the next one. Finally, participants were asked for their feedback using the NASA Task Load Index~\cite{Hart1988} (NASA-TLX) to assess the perceived workload of completed level.
+
+The experimental design was thus: 12 participants $\times$ 5 \cdt{level} $\times$ 20 \cdt{word} = 1200 trials. For each trial, we had 5 to 7 attemps depending on the error rate, which means a total of 6,000 to 8,400 total samples. After the experiment, we actually recorded 6963 samples.
+
 % =============================================================================
 \section{Results}
 % =============================================================================
-The dependent variables we analyse are the success rate, the time taken per trial and the trace data when available. From these, we computed the dependent measure error rate defined as the percentage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in~\cite{Markussen2014}, according to the following formula: $WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string and $s$ is time in seconds.
-
-We found one input word (\cdt{lay}) presented some very unusual behavior. Its error rate was at $89.5\%$ while the \cdt{WORD} mean was $20.1\%$ and no other word had an error rate higher than $30\%$. The reason was that the recogniser promoted words of higher prior probability in the language model, \textit{``Larry''}, \textit{``last''} or \textit{``Katy''}. For the all subsequent analysis of error rate, \cdt{lay} was removed from the dataset.
-
-\subsection{Effect on error rate}
-A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 37.77, p < 0.0001$) on error rate with mean value for \cdt{TP1} and \cdt{OP1} equal to 6.2\% and 26.1\%, respectively, see \autoref{fig:err_DEVICE_SHAPE}. A statistical analysis also showed a significant main effect of \cdt{SIZE} ($F_{2,22} = 10.99, p < 0.001$) on the error rate. Finally, an ANOVA on \cdt{TP1}, \cdt{OP2}, \cdt{OP4} and \cdt{OL2} did not show a significant main effect ($p = 0.11$) even though \cdt{OPTICAL} is on average higher than \cdt{TABLET}. In other words, among all levels of the experiment, only \cdt{OP1} shows a significant higher error rate.
-
 \marginpar{
 \begin{figure}
     \centering
@@ -210,18 +222,30 @@ A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 3
 \end{figure}
 }
 
+The dependent variables we analyse are the success rate, the time taken per trial and the trace data when available. From these, we computed the dependent measure error rate defined as the percentage of unsucessful attempts as well as the text entry rate measured in Words Per Minute (WPM), as in~\cite{Markussen2014}, according to the following formula: $WPM = |T|/s \times 60/5$ where $|T|$ is the length of the transcribed string and $s$ is time in seconds.
+
+
+We found one input word (\cdt{lay}) presented some very unusual behavior. Its error rate was at $89.5\%$ while the \cdt{WORD} mean was $20.1\%$ and no other word had an error rate higher than $30\%$. The reason was that the recogniser promoted words of higher prior probability in the language model, \textit{``Larry''}, \textit{``last''} or \textit{``Katy''}. For the all subsequent analysis of error rate, \cdt{lay} was removed from the dataset.
+
+
+
+\subsection{Effect on error rate}
+A statistical analysis showed a significant main effect of DEVICE ($F_{1,11} = 37.77$, $p < 0.0001$) on error rate with mean value for \cdt{TP1} and \cdt{OP1} equal to 6.2\% and 26.1\%, respectively, see~\autoref{fig:err_DEVICE_SHAPE}. A statistical analysis also showed a significant main effect of \cdt{SIZE} ($F_{2,22} = 10.99$, $p < 0.001$) on the error rate. Finally, an ANOVA on \cdt{TP1}, \cdt{OP2}, \cdt{OP4} and \cdt{OL2} did not show a significant main effect ($p = 0.11$) even though \cdt{OPTICAL} is on average higher than \cdt{TABLET}. In other words, among all levels of the experiment, only \cdt{OP1} shows a significant higher error rate.
+
 \subsection{Effect on input rate}
-A statistical analysis showed a significant main effect of \cdt{DEVICE} ($F_{1,11} = 90.15, p < 0.0001$) on input rate, see \autoref{fig:wpm_DEVICE_SHAPE}, with mean values for \cdt{TP1} and \cdt{OP1} equal to $29.2 WPM$ and $13.7 WPM$, respectively. We also looked at pairwise comparison\footnote{Post-hoc analysis were adjusted using Bonferroni correction.} for \cdt{OPTICAL} and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in \cdt{TP1} is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in \cdt{OPTICAL} should be compared with other similar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
+A statistical analysis showed a significant main effect of \cdt{DEVICE} ($F_{1,11} = 90.15$, $p < 0.0001$) on input rate, see~\autoref{fig:wpm_DEVICE_SHAPE}, with mean values for \cdt{TP1} and \cdt{OP1} equal to $29.2$ WPM and $13.7$ WPM, respectively. We also looked at pairwise comparison
+% \footnote{Post-hoc analysis were adjusted using Bonferroni correction.}
+for \cdt{OPTICAL} and could not find a statistical difference in the mean input rate. The input rate achieved by the participants in \cdt{TP1} is in-line with what can be expected from novice users after the time of the experiments~\cite{Kristensson2004}. The averaged 54\% lower input rate in \cdt{OPTICAL} should be compared with other similar results, as~\cite{Markussen2014} with 57\% after 10 sessions, that compare direct and indirect input modality for mid-air gesture typing.
 
 \subsection{Effect of orientation}
-The design of the experiment also includes \cdt{ORIENTATION}. This condition has so far been excluded from the SIZE analysis and can be difficult to apprehend since not only the \cdt{ORIENTATION} of the visual feedback changes, but its size also. The main result is the average pointer speed in display space at $303.75 pixel/s$, higher than the PORTRAIT orientation at an average $228 pixel/s$. It is important to keep in mind that the keyboard area in LANDSCAPE ($61cm^2$), bigger than PORTRAIT ($44cm^2$), which can explain the faster pointer speed but is not responsible for a higher input rate due to longer traces to produces.
+The design of the experiment also includes \cdt{ORIENTATION}. This condition has so far been excluded from the SIZE analysis and can be difficult to apprehend since not only the \cdt{ORIENTATION} of the visual feedback changes, but its size also. The main result is the average pointer speed in display space at $303.75 pixel/s$, higher than the PORTRAIT orientation at an average $228 pixel/s$. It is important to keep in mind that the keyboard area in LANDSCAPE ($61 cm^2$), bigger than PORTRAIT ($44 cm^2$), which can explain the faster pointer speed but is not responsible for a higher input rate due to longer traces to produces.
 
 \subsection{Qualitative data}
 At the end of the experiment, participants were invited to provide some informal feedback, rank the different level in order of preference and fill in the NASA-TLX form, the tablet interaction was ranked best by all participants except one. \cdt{OP4} was consistently ranked last, while \cdt{OP2} and \cdt{OL2} had equal ranking in second position. The NASA-TLX data shows that participants describe \cdt{OP4} as the most physically demanding interaction. Participants graded \cdt{OP1} and \cdt{OP4} 20\% higher than \cdt{OP2} and \cdt{OL2} on the scale of effort and frustration. Finally, \cdt{OP1} was graded as having lowest level of performance and highest mental and temporal demand.
 
 \section{Discussion}
 
-We conducted a user study investigating the usability of the system and showed that for control dimension at least twice the display dimension novice users were capable the same error rate at half the input rate. We also showed that at the same $CD_{gain}$, the error rates were dramatically higher. Also, the experiment showed a constant input rate across display sizes and aspect ratios. Accot et al.~\cite{Accot2001} showed that task with high index of difficulty would exhibits a u-shaped curved with size. Since we did not observe such a behavior, this puts in question whether gesture typing for novice users is “hard enough”.
+We conducted a user study investigating the usability of the system and showed that for control dimension at least twice the display dimension novice users were capable the same error rate at half the input rate. We also showed that at the same $CD_{gain}$, the error rates were dramatically higher. Also, the experiment showed a constant input rate across display sizes and aspect ratios. Accot et al.~\cite{Accot2001} showed that task with high index of difficulty would exhibits a u-shaped curved with size. Since we did not observe such a behavior, this puts in question whether gesture typing for novice users is ``hard enough''.
 
 The constant input rate however shows that participants are capable of adapting their motor speed across all investigated scales. Participants also varied the display pointer speed, especially in \cdt{OL2} when presented with a bigger display surface. Because participants are capable of adapting their motor behavior and their control bahavior, another explanation for the upper bound in text input is that the indirect nature of the interaction is the limiting factor.
 
@@ -234,6 +258,8 @@ We developed a system that affords gesture typing on arbitrary flat surfaces usi
 
 \section{Acknowledgements}
 We thank the European Commission and Horizon 2020 for funding this research (award number 643955).
+
+\newpage
 
 \balance
 \bibliographystyle{acm-sigchi}

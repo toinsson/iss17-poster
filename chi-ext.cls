@@ -1,8 +1,8 @@
 % CHI Extended Abstracts template.
 % Tested with a clean LaTeX installation on Windows XP, Ubuntu 9.04 and above (should work in normal LaTeX environments)
-% 
+%
 % Filename: chi-ext.cls
-% 
+%
 % Features:
 %	- simpler design, two 'real' columns, better handling of footnotes/marginal notes
 %	- adheres to ACM archival format, so you don't need to change your LaTeX markup significantly from other ACM templates
@@ -17,7 +17,7 @@
 %   2009-12-04   Stephen Voida      Updated copyright info for CHI 2010
 %   2009-11-17   Manas Tungare      Refactored the title & author sections.
 %   2008-11-25   Manas Tungare      Initial create.
-% 
+%
 % LICENSE:
 %   Public domain: You are free to do whatever you want with this template.
 %   If you improve this in any way, please drop me a note <llt@acm.org>,
@@ -107,7 +107,7 @@
   \begingroup
     \let\and\relax
 %    #1 [\textbf{#2}]%
-    #1 [#2]% 
+    #1 [#2]%
     \if!#4!%
       \if!#3!\else : #3\fi
     \else
@@ -148,12 +148,12 @@
   %{\sffamily\MakeUppercase\small\itshape\phantomsection}
   {\sffamily\normalsize\itshape\phantomsection}
 }
-     
+
 % Now remove vertical space after sections (same as class' font size)
 \usepackage[compact]{titlesec}
 \titlespacing{\section}{0pt}{*0}{-9pt}
 \titlespacing{\subsection}{0pt}{*0}{-9pt}
-\titlespacing{\subsubsection}{0pt}{*0}{-9pt}                              
+\titlespacing{\subsubsection}{0pt}{*0}{-9pt}
 
 % Add references to TOC
 \let\myrefname\refname
@@ -243,7 +243,7 @@
 %  \begin{minipage}[b][0.74\textheight][b]{\linewidth}
 %  \begin{minipage}[t][0.2\textheight][t]{\linewidth}\mbox{}\end{minipage}
   \begin{minipage}[t][0.76\textheight][t]{\linewidth}
-    \ifx\acm@teaser\acm@empty 
+    \ifx\acm@teaser\acm@empty
       \begin{minipage}[t][0.5\textheight][t]{\linewidth}{\small\@author}\end{minipage}
     \else
       \small\@author\par
@@ -255,13 +255,13 @@
     \fi
 
     \vfil
-    
+
     % ... and ACM copyright
-    \rule{\columnwidth}{0.5pt}
+    %\rule{\columnwidth}{0.5pt}
     {\scriptsize\@copyrightinfo \\}
   \end{minipage}
 
-  % avoid title overlapping with abstract 
+  % avoid title overlapping with abstract
   \begin{minipage}[t][0.2\textheight][t]{\linewidth}\mbox{}\end{minipage}
 }
 
