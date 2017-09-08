@@ -4,7 +4,7 @@
 
 %% EXAMPLE BEGIN -- HOW TO OVERRIDE THE DEFAULT COPYRIGHT STRIP -- (July 22, 2013 - Paul Baumann)
 \copyrightinfo{Permission to make digital or hard copies of part or all of this work for personal or classroom use is granted without fee provided that copies are not made or distributed for profit or commercial advantage and that copies bear this notice and the full citation on the first page. Copyrights for third-party components of this work must be honored. For all other uses, contact the Owner/Author. \\
-{\emph{ISS '17}}, October 17–20, 2017, Brighton, United Kingdom. \\
+{\emph{ISS '17}}, October 17–-20, 2017, Brighton, United Kingdom. \\
 \copyright~2017 Copyright is held by the owner/author(s). \\
 ACM ISBN 978-1-4503-4691-7/17/10. \\
 https://doi.org/10.1145/3132272.3135074}
@@ -65,6 +65,9 @@ https://doi.org/10.1145/3132272.3135074}
   %menucolor=black,
   %urlcolor=black,
 }
+
+% to change colon to full stop in captions
+\usepackage[labelsep=period]{caption}
 
 \usepackage{graphicx}   % for EPS use the graphics package instead
 \usepackage{balance}    % useful for balancing the last columns
@@ -257,7 +260,7 @@ Participants feedback showed that \cdt{OP1} was a demanding interaction, and tha
 We developed a system that affords gesture typing on arbitrary flat surfaces using depth camera tracking, and demonstrated a machine learning approach to the issue of detecting touch for fingertips which is effective for this mode of control. We designed an experiment with two research goals in mind. First, we compared the typing performance of our optical indirect system against a control condition which was a direct interaction on a tablet. Second, we studied the influence of size and aspect ratio of the input surface on gesture typing performance. We showed that the participants could enter text at half the input rate and the same error rate on surface at least twice the size of the visual feedback. We also showed that the input rate is largely independent of surface size across the range of sizes we were able to examine. Gesture typing has promise for interaction outside of mobile devices, e.g. for motor impaired users who struggle with capacitive touch technologies. This paper indicates that while camera-tracked gesture typing performance is usable, input rates are lower than touchscreen performance, and this is not influenced by scaling of the input.
 
 \section{Acknowledgements}
-We thank the European Commission and Horizon 2020 for funding this research (award number 643955).
+This research is funded by the E.U. Horizon 2020 research and innovation programme under project Moregrasp, award number 643955.
 
 \newpage
 
